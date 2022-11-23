@@ -27,7 +27,7 @@ def get_user_choice():
             print("Please input a valid input; Rock, Paper or Scissor")
 
 
-  
+#  Function to chose winner
 def get_winner(computer_choice, user_choice):
     if user_choice == computer_choice:
        print(f"It's a draw, you both chose {computer_choice}")
@@ -48,9 +48,12 @@ def get_winner(computer_choice, user_choice):
            print("Rock breaks Scissor, you lost!")
            
 # get_winner("Rock", "Scissor")    
+def play():    
+    computer_choice = get_computer_choice()
+    user_choice = get_user_choice()
+    get_winner(computer_choice, user_choice)
     
-computer_choice = get_computer_choice()
-user_choice = get_user_choice()
-get_winner(computer_choice, user_choice)
+play()
+
     
 # %%
