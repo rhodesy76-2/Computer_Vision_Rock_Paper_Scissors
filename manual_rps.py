@@ -9,8 +9,7 @@ def get_computer_choice():
     print(f"The computer chose {computer_choice}") 
     return computer_choice
 
-get_computer_choice()
-# %%
+
 # Function to ask the user for an input and return it.
 def get_user_choice():
     while True:
@@ -27,5 +26,31 @@ def get_user_choice():
         else:
             print("Please input a valid input; Rock, Paper or Scissor")
 
-get_user_choice()   
-  # %%      
+
+  
+def get_winner(computer_choice, user_choice):
+    if user_choice == computer_choice:
+       print(f"It's a draw, you both chose {computer_choice}")
+    elif user_choice == "Rock":
+       if computer_choice == "Scissor":
+           print("Rock breaks Scissor, you won!")
+       else:
+           print("Paper covers Rock, you lost!")
+    elif user_choice == "Paper":
+       if computer_choice == "Rock":
+           print("Paper covers Rock , you won!")
+       else:
+           print("Scissor cuts Paper, you lost!")
+    elif user_choice == "Scissor":
+       if computer_choice == "Paper":
+           print("Scissor cuts Paper , you won!")
+       else:
+           print("Rock breaks Scissor, you lost!")
+           
+# get_winner("Rock", "Scissor")    
+    
+computer_choice = get_computer_choice()
+user_choice = get_user_choice()
+get_winner(computer_choice, user_choice)
+    
+# %%
