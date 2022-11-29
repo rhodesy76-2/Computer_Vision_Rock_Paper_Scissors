@@ -1,10 +1,11 @@
 # %%
 # Importing random module to allow us to pick a random option between rock, paper, and scissors
 import random
-choice_list = ("Rock", "Paper", "Scissor")
+
 
 # Function to randomly pick an option between "Rock", "Paper", and "Scissors" and return the choice
 def get_computer_choice():
+    choice_list = ("Rock", "Paper", "Scissor")
     computer_choice =  random.choice(choice_list)
     print(f"The computer chose {computer_choice}") 
     return computer_choice
