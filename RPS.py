@@ -1,4 +1,4 @@
-# %%
+
 # Import opencv-python. Opencv is an open source library which is very useful for computer vision applications 
 # such as video analysis, CCTV footage analysis and image analysis.
 import cv2
@@ -40,13 +40,16 @@ def interpret_prediction(prediction):
     # Simple if/ elif/ else to convert the the argmax value to what is associated uner the label
     # TODO could refernce the labe.txtl file to get the label?
     if idetifier_for_label == 0:
+        print("Rock")
         return "Rock"
     elif idetifier_for_label == 1:
+        print ("Paper")
         return "Paper"
     elif idetifier_for_label == 2:
+        print ("Scissor")
         return "Scissor"
     elif idetifier_for_label == 3:
-        return "Nothing is seen"   
+        print ("Nothing is seen")  
     else:
         print("You shouldnt see this warning")
         
@@ -95,11 +98,9 @@ while True:
     # Press q to close the window using an if statement to break the True loop 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-
-  
+    
         
 # After the loop release the cap object
 cap.release()
 # Destroy all the windows
 cv2.destroyAllWindows()
-# %%
