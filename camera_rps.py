@@ -37,6 +37,7 @@ simulation and much more.
 import numpy as np
 # From the above imported load_model import we load in our keras_model.h5 model we crerated from Teachable-Machine website
 import random
+import time
 
 # TODO move out the video part. The get picture is a snap shot of the camera. Return in get prediction is breraking loop so 
 # just the image at that point. Make user choice function call that to trigger this
@@ -94,7 +95,7 @@ def interpret_prediction(prediction):
         
         
        # else:    
-            # get_prediction() # *** remove and make an else statement in get prediction that if ++3 nothimng seen to run again
+            # get_prediction() # *** remove and make an else statement in get prediction that if ++3 nothing seen to run again
         
     
 
@@ -151,7 +152,7 @@ def get_prediction():
         # Added code to flip the frame so a mirror image is displayed inthe python screen output
         flip_frame = cv2.flip(frame,1)
         # The function imshow displays an image in the specified window. Shows the fliped frame  
-        cv2.imshow('frame', flip_frame)
+        cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)
         # Prints what the prediction is. A number 0-3, where 0 = Rock, 1 = Paper, 2 =Scissor and 3 = Nothing 
         print(prediction)
         # Prints the numpy array prediction of what the camera is seeing. argmax returns the indices of the maximum values along an axis.
@@ -194,6 +195,7 @@ def get_computer_choice():
   
 def play():    
     computer_choice = get_computer_choice()
+    input("When ready to play press enter to start 3 second countdown")
     user_choice = get_prediction() #get_user_choice()
     get_winner(computer_choice, user_choice)
     

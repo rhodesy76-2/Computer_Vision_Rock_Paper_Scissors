@@ -51,6 +51,7 @@ def get_winner(computer_choice, user_choice):
 # get_winner("Rock", "Scissor")    
 def play():    
     computer_choice = get_computer_choice()
+    input("When ready to play press enter to start 3 second countdown")
     user_choice = get_user_choice()
     get_winner(computer_choice, user_choice)
     

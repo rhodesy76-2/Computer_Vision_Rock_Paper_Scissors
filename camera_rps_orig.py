@@ -48,12 +48,26 @@ import random
 # Have a main function that takes the user input?
 
 
-# Function to randomly pick an option between "Rock", "Paper", and "Scissors" and return the choice
-def get_computer_choice():
-    choice_list = ("Rock", "Paper", "Scissor")
-    computer_choice =  random.choice(choice_list)
-    print(f"The computer chose {computer_choice}") 
-    return computer_choice
+#  Function to chose winner
+def get_winner(computer_choice, user_choice):
+    if user_choice == computer_choice:
+       print(f"It's a draw, you both chose {computer_choice}")
+    elif user_choice == "Rock":
+       if computer_choice == "Scissor":
+           print("Rock breaks Scissor, you won!")
+       else:
+           print("Paper covers Rock, you lost!")
+    elif user_choice == "Paper":
+       if computer_choice == "Rock":
+           print("Paper covers Rock , you won!")
+       else:
+           print("Scissor cuts Paper, you lost!")
+    elif user_choice == "Scissor":
+       if computer_choice == "Paper":
+           print("Scissor cuts Paper , you won!")
+       else:
+           print("Rock breaks Scissor, you lost!")
+
 
 
 # A fucntion to get and interpret the numpty array output
@@ -62,16 +76,25 @@ def interpret_prediction(prediction):
     idetifier_for_label = np.argmax(prediction)
     # Simple if/ elif/ else to convert the the argmax value to what is associated uner the label
     # TODO could refernce the labe.txt file to get the label? Dictionary?
-    if idetifier_for_label == 0:
-        print("Rock")
-    elif idetifier_for_label == 1:
-        print ("Paper")
-    elif idetifier_for_label == 2:
-        print ("Scissor")
-    elif idetifier_for_label == 3:
-        print ("Nothing is seen")   
-    else:
-        print("You shouldnt see this warning")
+    while True:
+        if idetifier_for_label == 0:
+            #print("You chose Rock")
+            return "Rock"
+        elif idetifier_for_label == 1:
+            #print("You chose Paper")
+            return "Paper"
+        elif idetifier_for_label == 2:
+            #print("You chose Scissor")
+            return "Scissor"
+        elif idetifier_for_label == 3:
+            print ("Nothing is seen")   
+            return "Nothing is seen"
+        else:
+            print("You shouldnt see this warning")
+        
+        
+       # else:    
+            # get_prediction() # *** remove and make an else statement in get prediction that if ++3 nothimng seen to run again
         
     
 
@@ -134,11 +157,18 @@ def get_prediction():
         # Prints the numpy array prediction of what the camera is seeing. argmax returns the indices of the maximum values along an axis.
         print(np.argmax(prediction))
         # Calling the interpret_prediction function I added to print out what the prediction avctiually corresponds to (Rock, Paper, Scissor or Nothing)
-        user_choice = interpret_prediction(prediction)
+        # user_choice = interpret_prediction(prediction)
         # Press q to close the window using an if statement to break the True loop 
+        user_choice = interpret_prediction(prediction)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-        return user_choice
+        elif user_choice == "Nothing is seen":
+            print("Nothing seen try again")
+            get_prediction()
+        else:
+            user_choice = interpret_prediction(prediction)
+            print(f"You chose {user_choice}")
+            return user_choice
     # After the loop release the cap object
     cap.release()
     # Destroy all the windows
@@ -146,34 +176,21 @@ def get_prediction():
 #TODO remove the video stuff above to just have a prediction function
 
 
+
 # Function to ask the user for an input and return it.
 def get_user_choice():
-    prediction = get_prediction() ##### TODO how to link to get_prediction 
-    user_choice = interpret_prediction(prediction)
+    user_choice = get_prediction() ##### TODO how to link to get_prediction 
+    # user_choice = interpret_prediction(prediction)
     return user_choice
     
 
 
-#  Function to chose winner
-def get_winner(computer_choice, user_choice):
-    if user_choice == computer_choice:
-       print(f"It's a draw, you both chose {computer_choice}")
-    elif user_choice == "Rock":
-       if computer_choice == "Scissor":
-           print("Rock breaks Scissor, you won!")
-       else:
-           print("Paper covers Rock, you lost!")
-    elif user_choice == "Paper":
-       if computer_choice == "Rock":
-           print("Paper covers Rock , you won!")
-       else:
-           print("Scissor cuts Paper, you lost!")
-    elif user_choice == "Scissor":
-       if computer_choice == "Paper":
-           print("Scissor cuts Paper , you won!")
-       else:
-           print("Rock breaks Scissor, you lost!")
-           
+# Function to randomly pick an option between "Rock", "Paper", and "Scissors" and return the choice
+def get_computer_choice():
+    choice_list = ("Rock", "Paper", "Scissor")
+    computer_choice =  random.choice(choice_list)
+    print(f"The computer chose {computer_choice}") 
+    return computer_choice           
   
 def play():    
     computer_choice = get_computer_choice()
