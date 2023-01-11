@@ -37,27 +37,15 @@ simulation and much more.
 import numpy as np
 # From the above imported load_model import we load in our keras_model.h5 model we crerated from Teachable-Machine website
 import random
+import time
+
+
+
 
 # TODO move out the video part. The get picture is a snap shot of the camera. Return in get prediction is breraking loop so 
 # just the image at that point. Make user choice function call that to trigger this
 
-disp = cv2.VideoCapture(0)
-while(True):
-    # Capture the video frame
-    # by frame
-    ret, frame = disp.read()
-    # flip the frame
-    flip_frame = cv2.flip(frame,1)
-    cv2.imshow('Computer Vision: Rock Paper Scissor Game', flip_frame)
-     # the 'q' button is set as the
-    # quitting button you may use any
-    # desired button of your choice
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-# After the loop release the cap object
-disp.release()
-# Destroy all the windows
-cv2.destroyAllWindows()   
+# See above
     
 # TODO Take out the vid bit from the prediction part
 # Put thge display part into a function
@@ -110,7 +98,7 @@ def interpret_prediction(prediction):
         
         
        # else:    
-            # get_prediction() # *** remove and make an else statement in get prediction that if ++3 nothimng seen to run again
+            # get_prediction() # *** remove and make an else statement in get prediction that if ++3 nothing seen to run again
         
     
 
@@ -132,15 +120,72 @@ def get_prediction():
     np.float32 - means that each value in the numpy array would be a float of size 32 bits
     '''
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    TIMER = int(3) 
+    # TODO move above up top top ***
     #print(data)
     # This code initiates an infinite loop (to be broken later by a break statement), where we have ret and frame being defined
     # as the cap.read(). Basically, ret is a boolean regarding whether or not there was a return at all, at the frame is each 
     # frame that is returned. If there is no frame, you wont get an error, you will get None.
+    print("Press p to play")
     while True: 
         ret, frame = cap.read()
+         # Added code to flip the frame so a mirror image is displayed inthe python screen output
+        flip_frame = cv2.flip(frame,1)
+        # The function imshow displays an image in the specified window. Shows the fliped frame  
+
+    
+        cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)
+        
+        
+        # check for the key pressed
+        k = cv2.waitKey(125)
+  
+        # set the key for the countdown
+        # to begin. Here we set p
+        if k == ord('p'):
+            prev = time.time()
+  
+            while TIMER >= 0:
+                ret, frame = cap.read()
+         # Added code to flip the frame so a mirror image is displayed inthe python screen output
+                flip_frame = cv2.flip(frame,1)
+  
+                # Display countdown on each frame
+                # specify the font and draw the
+                # countdown using puttext
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                cv2.putText(flip_frame, str(TIMER), 
+                        (200, 250), font,
+                        7, (0, 255, 255),
+                        4, cv2.LINE_AA)
+                cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)
+                cv2.waitKey(125)
+  
+                # current time
+                cur = time.time()
+  
+                # Update and keep track of Countdown
+                # if time elapsed is one second 
+                # then decrease the counter
+                if cur-prev >= 1:
+                    prev = cur
+                    TIMER = TIMER-1
+  
+            else:
+                ret, frame = cap.read()
+         # Added code to flip the frame so a mirror image is displayed inthe python screen output
+                flip_frame = cv2.flip(frame,1)
+  
+            # Display the clicked frame for 2 
+            # sec.You can increase time in 
+            # waitKey also
+                cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)
+  
+            # time for which image displayed
+                    #cv2.waitKey(2000)
         # This resizes an the video camera image (from the cap variable) and saves as resized_fame variable. Sets to 224 by 224, 
         # which is the size of the images from the Teachable-Machine website model
-        '''
+                '''
         The function resize resizes the image src (cap in our case) down to or up to the specified size. Note that the initial dst type or 
         size are not taken into account. Instead, the size and type are derived from the src,dsize,fx, and fy. 
         Uses the Inter_Area method for interpolation
@@ -155,36 +200,33 @@ def get_prediction():
          — Otherwise:
              INTER_AREA is a bilinear interpolation with slightly more complicated coefficient values.
         '''
-        resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
+                resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
         # This creates a numpy array from the resized_fame variable, saving it as a variable called image_np
-        image_np = np.array(resized_frame)
+                image_np = np.array(resized_frame)
         # Normalizes the image
-        normalized_image = (image_np.astype(np.float32) / 127.0) - 1 
+                normalized_image = (image_np.astype(np.float32) / 127.0) - 1 
         #?????
-        data[0] = normalized_image
+                data[0] = normalized_image
         # pediction comes from model variable (from keras_model.h5), and making a prediction of what the camera is seeing (as a numpy array)
-        prediction = model.predict(data)
-        # Added code to flip the frame so a mirror image is displayed inthe python screen output
-        flip_frame = cv2.flip(frame,1)
-        # The function imshow displays an image in the specified window. Shows the fliped frame  
-        cv2.imshow('frame', flip_frame)
+                prediction = model.predict(data)
         # Prints what the prediction is. A number 0-3, where 0 = Rock, 1 = Paper, 2 =Scissor and 3 = Nothing 
-        print(prediction)
+                print(prediction)
         # Prints the numpy array prediction of what the camera is seeing. argmax returns the indices of the maximum values along an axis.
-        print(np.argmax(prediction))
+                print(np.argmax(prediction))
         # Calling the interpret_prediction function I added to print out what the prediction avctiually corresponds to (Rock, Paper, Scissor or Nothing)
         # user_choice = interpret_prediction(prediction)
         # Press q to close the window using an if statement to break the True loop 
-        user_choice = interpret_prediction(prediction)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-        elif user_choice == "Nothing is seen":
-            print("Nothing seen try again")
-            get_prediction()
-        else:
-            user_choice = interpret_prediction(prediction)
-            print(f"You chose {user_choice}")
-            return user_choice
+                user_choice = interpret_prediction(prediction)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                    break
+                elif user_choice == "Nothing is seen":
+                    print("Nothing seen try again")
+                    get_prediction()
+                else:
+                    user_choice = interpret_prediction(prediction)
+                    print(f"You chose {user_choice}")
+                    return user_choice
+    
     # After the loop release the cap object
     cap.release()
     # Destroy all the windows
@@ -210,6 +252,7 @@ def get_computer_choice():
   
 def play():    
     computer_choice = get_computer_choice()
+    # input("When ready to play press enter to start 3 second countdown")
     user_choice = get_prediction() #get_user_choice()
     get_winner(computer_choice, user_choice)
     

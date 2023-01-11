@@ -39,6 +39,8 @@ import numpy as np
 import random
 import time
 
+
+TIMER = int(20)
 # TODO move out the video part. The get picture is a snap shot of the camera. Return in get prediction is breraking loop so 
 # just the image at that point. Make user choice function call that to trigger this
 
@@ -117,12 +119,18 @@ def get_prediction():
     np.float32 - means that each value in the numpy array would be a float of size 32 bits
     '''
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    # TODO move above up top top ***
     #print(data)
     # This code initiates an infinite loop (to be broken later by a break statement), where we have ret and frame being defined
     # as the cap.read(). Basically, ret is a boolean regarding whether or not there was a return at all, at the frame is each 
     # frame that is returned. If there is no frame, you wont get an error, you will get None.
     while True: 
         ret, frame = cap.read()
+         # Added code to flip the frame so a mirror image is displayed inthe python screen output
+        flip_frame = cv2.flip(frame,1)
+        # The function imshow displays an image in the specified window. Shows the fliped frame  
+        cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)
+        
         # This resizes an the video camera image (from the cap variable) and saves as resized_fame variable. Sets to 224 by 224, 
         # which is the size of the images from the Teachable-Machine website model
         '''
@@ -149,10 +157,6 @@ def get_prediction():
         data[0] = normalized_image
         # pediction comes from model variable (from keras_model.h5), and making a prediction of what the camera is seeing (as a numpy array)
         prediction = model.predict(data)
-        # Added code to flip the frame so a mirror image is displayed inthe python screen output
-        flip_frame = cv2.flip(frame,1)
-        # The function imshow displays an image in the specified window. Shows the fliped frame  
-        cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)
         # Prints what the prediction is. A number 0-3, where 0 = Rock, 1 = Paper, 2 =Scissor and 3 = Nothing 
         print(prediction)
         # Prints the numpy array prediction of what the camera is seeing. argmax returns the indices of the maximum values along an axis.
