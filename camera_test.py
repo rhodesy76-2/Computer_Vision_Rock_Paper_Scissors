@@ -38,7 +38,7 @@ import numpy as np
 # From the above imported load_model import we load in our keras_model.h5 model we crerated from Teachable-Machine website
 import random
 import time
-
+from sys import exit
 
 #  Function to chose winner
 def get_winner(computer_choice, user_choice):
@@ -236,8 +236,10 @@ def get_computer_choice():
 def play_again():
     play_again_input = input("Play again? (y/n): ")
     if play_again_input.lower() == "n":
-            exit()
+        print("You chose not to play again")
+        exit()
     elif play_again_input.lower() == "y":
+        print("You chose to play again")
         play()
       
 def play():
@@ -267,7 +269,8 @@ def play():
             elif user_wins == 3:
                 print('You win the match!')
                 play_again()
-   
+    else:
+        exit() # TODO see if this works or take out. currently count continueing
     
 play()
 # %%
