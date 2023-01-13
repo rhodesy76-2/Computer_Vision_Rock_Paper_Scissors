@@ -253,9 +253,13 @@ def play():
             print(f"The computer score is: {computer_wins} and the player score is: {user_wins}")
             if  computer_wins == 3:
                 print('The computer won this match!')
+                computer_wins = 0
+                user_wins = 0
                 play_again()
             elif user_wins == 3:
                 print('You win the match!')
+                computer_wins = 0
+                user_wins = 0
                 play_again()
         elif (winner == 2):
             computer_wins += 1
@@ -263,9 +267,13 @@ def play():
             print(f"The computer score is: {computer_wins} and the player score is: {user_wins}") 
             if  computer_wins == 3:
                 print('The computer won this match!')
+                computer_wins = 0
+                user_wins = 0
                 play_again()
             elif user_wins == 3:
                 print('You win the match!')
+                computer_wins = 0
+                user_wins = 0
                 play_again()
    
     
