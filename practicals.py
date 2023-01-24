@@ -292,3 +292,44 @@ for num in range (10, 51):
 import sys
 sys.path
 # %%
+import sys
+
+print(sys.path)
+# %%
+my_list = [1, 2, 3, 4, 5]
+1 in my_list
+
+# %%
+6 in my_list
+# %%
+7 not in my_list
+# %%
+my_number_1 = 1
+my_number_2 = 2
+my_number_1 == my_number_2 
+# %%
+my_number_1 is my_number_2 
+# %%
+# same as 1 & 2 different
+# %%
+my_list_1 = [1, 2, 3, 4, 5]
+my_list_2 = [1, 2, 3, 4, 5]
+my_list_1 == my_list_2 
+
+# %%
+my_list_1 is my_list_2 
+# %%
+# different as lists go into seperate parts of memory. If we set my_list_1 = my_list_2 then would be true
+# %%
+my_dict = {}
+# my_dict.items()
+# %%
+bool(my_dict)
+# %%
+not my_dict
+# %%
+my_dict_2 = {"key_1": 1, "key_2": 2}
+bool(my_dict)
+# %%
+not my_dict_2
+# %%
