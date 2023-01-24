@@ -333,3 +333,64 @@ bool(my_dict)
 # %%
 not my_dict_2
 # %%
+# Lambda functions
+
+func_lambda = lambda y: y ** 2
+
+x = func_lambda(3)
+print(x)
+# %%
+func_lambda = lambda y: y ** 3
+
+x = func_lambda(3)
+print(x)
+# %%
+func_lambda = lambda x, y: x + y
+
+x = func_lambda(3,4)
+print(x)
+# %%
+func_lambda = lambda x, y: x * y
+
+x = func_lambda(3,4)
+print(x)
+# %%
+got = [('Drogon', 508), ('Jon', 103), ('Rhaegal', 273), ('Cersei', 199), ('Arya', 1278)]
+
+sorted(got, key=lambda x: x[1])
+# %%
+sorted(got, key=lambda x: x[0])
+# %%
+sorted(got, key=lambda x: len(x[0]))
+# %%
+sorted(got, key=lambda x: -len(x[0]))
+# %%
+my_list = [2, 3, 4, 5, 6]
+ls_sqaured = map(lambda x: x ** 2, my_list)
+print(list(ls_sqaured))
+# %%
+my_list = [2, 3, 4, 5, 6]
+ls_cubed = map(lambda x: x ** 3, my_list)
+print(list(ls_cubed))
+# %%
+my_list = [2, 3, 4, 5, 6]
+ls_special = map(lambda x: x ** 2 if (x % 2) == 0 else x ** 3, my_list)
+print(list(ls_special))
+# %%
+got = ['Caitlyn', 'Tully', 'Arya', 'Stark', 'Bran', 'Baratheon', 'Jon', 'Snow', 'Targaryen', 'Hodor']
+
+
+longer_than_5 = map(lambda x: len(x) > 5, got)
+print(list(longer_than_5))
+longer_than_5_filter = filter(lambda x: len(x) > 5, got)
+print(list(longer_than_5_filter))
+
+# %%
+got = ['Caitlyn', 'Tully', 'Arya', 'Stark', 'Indigo', 'Baratheon', 'Jon', 'Snow', 'Targaryen', 'Hodor']
+vowels = "AEIOU"
+
+longer_than_5 = map(lambda x: len(x) > 5 and x[0] in vowels, got)
+print(list(longer_than_5))
+longer_than_5 = filter(lambda x: len(x) > 5 and x[0] in vowels, got)
+print(list(longer_than_5))
+# %%
