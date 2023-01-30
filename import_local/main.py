@@ -15,6 +15,8 @@ function_1()
 from module_1 import function_1
 
 function_1()
+function_2()
+#%%
 
 from module_1 import function_2
 
@@ -40,4 +42,7 @@ print(x)
 # %%
 x = "Hello, I am in main.py"
 print(x)
+# %%
+import sys
+sys.path
 # %%

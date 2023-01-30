@@ -1,24 +1,4 @@
-# %%
-# define a video capture object
-disp = cv2.VideoCapture(0)
-while(True):
-    # Capture the video frame
-    # by frame
-    ret, frame = disp.read()
-    # flip the frame
-    flip_frame = cv2.flip(frame,1)
-    cv2.imshow('Computer Vision: Rock Paper Scissor Game', flip_frame)
-     # the 'q' button is set as the
-    # quitting button you may use any
-    # desired button of your choice
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-# After the loop release the cap object
-disp.release()
-# Destroy all the windows
-cv2.destroyAllWindows()   
-
-# %%
+ # %%
 
 
 # Import opencv-python. Opencv is an open source library which is very useful for computer vision applications 
@@ -117,6 +97,8 @@ def get_prediction():
     # set countdown timer variable, set to 3 seconds
     TIMER = int(1) 
     #print(data)
+    
+    
     # To initiate the 3 second coundown time you must press the p button
     print("Press p to play")
     # This code initiates an infinite loop (to be broken later by a break statement), where we have ret and frame being defined
