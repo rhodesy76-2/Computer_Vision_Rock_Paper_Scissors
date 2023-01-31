@@ -18,7 +18,7 @@ import numpy as np
 # From the above imported load_model import we load in our keras_model.h5 model we crerated from Teachable-Machine website
 import random
 import time
-from sys import exit
+
 
 
 
@@ -287,9 +287,7 @@ class RockPaperScissors():
                         self.main()
         
             
-    
-   
-    
+      
 if __name__ == "__main__":
     game = RockPaperScissors()
     game.main()
