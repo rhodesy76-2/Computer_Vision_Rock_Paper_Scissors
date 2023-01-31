@@ -18,33 +18,34 @@ import numpy as np
 # From the above imported load_model import we load in our keras_model.h5 model we crerated from Teachable-Machine website
 import random
 import time
+from sys import exit
 
+label_names = ["Rock", "Paper", "Scissor"]
 
 #  Function to chose winner
 def get_winner(computer_choice, user_choice):
+    """Determines the winner of the game based on the user's and computer's choices.
+    
+    Returns 1 if the user wins, 2 if the user loses, and 0 if it's a draw.
+    """
+    results = {
+        ("Rock", "Scissor"): 1,
+        ("Rock", "Paper"): 2,
+        ("Paper", "Rock"): 1,
+        ("Paper", "Scissor"): 2,
+        ("Scissor", "Paper"): 1,
+        ("Scissor", "Rock"): 2,
+    }
     if user_choice == computer_choice:
-       print(f"It's a draw, you both chose {computer_choice}")
-    elif user_choice == "Rock":
-       if computer_choice == "Scissor":
-           print("Rock breaks Scissor, you won!")
-           return 1
-       else:
-           print("Paper covers Rock, you lost!")
-           return 2
-    elif user_choice == "Paper":
-       if computer_choice == "Rock":
-           print("Paper covers Rock , you won!")
-           return 1
-       else:
-           print("Scissor cuts Paper, you lost!")
-           return 2
-    elif user_choice == "Scissor":
-       if computer_choice == "Paper":
-           print("Scissor cuts Paper , you won!")
-           return 1
-       else:
-           print("Rock breaks Scissor, you lost!")
-           return 2
+        print("It's a draw, you both chose {}".format(computer_choice))
+        return 0
+    else:
+        result = results.get((user_choice, computer_choice))
+        if result == 1:
+            print(f"You won! {user_choice} beats {computer_choice}")
+        else:
+            print(f"You lost! {computer_choice} beats {user_choice} ")
+        return result
 
 
 
@@ -108,6 +109,12 @@ def get_prediction():
         ret, frame = cap.read()
          # Added code to flip the frame so a mirror image is displayed inthe python screen output
         flip_frame = cv2.flip(frame,1)
+         # Adding text to screen to say press p to play
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(flip_frame, str('Press p to play'), 
+                        (200, 250), font,
+                        3, (0, 255, 255),
+                        4, cv2.LINE_AA)
         # The function imshow displays an image in the specified window. Shows the fliped frame  
         cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)    
         # check for the key pressed
@@ -180,17 +187,14 @@ def get_prediction():
                 print(np.argmax(prediction))
                 # Calling the interpret_prediction function I added to print out what the prediction avctiually corresponds to (Rock, Paper, Scissor or Nothing)
                 # user_choice = interpret_prediction(prediction)
-                user_choice = interpret_prediction(prediction)
+                user_choice = np.argmax(prediction)
                 # Press q to close the window using an if statement to break the True loop 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
                 # Call get prediction again if nothing is seen, will loop until a valid input is seen
-                elif user_choice == "Nothing is seen":
-                    print("Nothing seen try again")
-                    get_prediction()
                 else:
-                    user_choice = interpret_prediction(prediction)
-                    print(f"You chose {user_choice}")
+                    #user_choice = interpret_prediction(prediction)
+                    # print(f"You chose 1 {user_choice}")
                     return user_choice
     
     # After the loop release the cap object
@@ -201,63 +205,88 @@ def get_prediction():
 
 
 
-# Function to ask the user for an input and return it. Calls the get prediction function to take a camera input.
-def get_user_choice():
-    user_choice = get_prediction() 
-    return user_choice
-# TODO remove? or get working as not feeding in line 248   
+def play_game():
+        """Plays a game of rock-paper-scissors using webcam input."""
+        computer_choice = random.choice(label_names)
+        print("Make your choice.")
+        user_choice = interpret_prediction(get_prediction())
+        if user_choice == 3:
+            print("Unable to detect your choice, please try again.")
+            get_prediction()
+        print("You chose {}.".format(user_choice))
+        time.sleep(1)
+        print("The computer chose {}.".format(computer_choice))
+        time.sleep(1)
+        return get_winner(computer_choice, user_choice)
 
-
-# Function to randomly pick an option between "Rock", "Paper", and "Scissors" and return the choice
-def get_computer_choice():
-    choice_list = ("Rock", "Paper", "Scissor")
-    computer_choice =  random.choice(choice_list)
-    print(f"The computer chose {computer_choice}") 
-    return computer_choice           
-
+# Following function is not called, is just a where I got trying to achieve the following
+# TODO amend the play again so displays play again in puython window and takes input. At moment this seems to not wait
+def play_again2():
+    print("Play again? (y/n): ")
+    cap = cv2.VideoCapture(0)
+    ret, frame = cap.read()
+    # Added code to flip the frame so a mirror image is displayed inthe python screen output
+    flip_frame = cv2.flip(frame,1)
+    # The following code displays "Play again y/n" in the pytghon frame
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(flip_frame, str("Play again? (y/n):"), 
+                        (200, 250), font,
+                        3, (0, 255, 255),
+                        4, cv2.LINE_AA)
+        # The function imshow displays an image in the specified window. Shows the fliped frame  
+    cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)   
+    play_again_input = cv2.waitKey(125)
+    time.sleep(1)
+    time.sleep(1)
+    time.sleep(1)
+    if play_again_input == ord('y'):
+        print("You chose to play again")
+        return True
+    else:
+        print("You chose not to play again")
+        return False
+    
 def play_again():
     play_again_input = input("Play again? (y/n): ")
     if play_again_input.lower() == "n":
-            exit()
+        return False
     elif play_again_input.lower() == "y":
-        play()
-      
-def play():
-    computer_wins = 0
-    user_wins = 0
-    while computer_wins or user_wins <= 2:
-        computer_choice = get_computer_choice()
-        user_choice = get_prediction() #get_user_choice()  
-        winner = get_winner(computer_choice, user_choice)
-        if (winner == 1):
-            user_wins += 1
-            print('User wins the round!!!')
-            print(f"The computer score is: {computer_wins} and the player score is: {user_wins}")
-            if  computer_wins == 3:
-                print('The computer won this match!')
-                computer_wins = 0
-                user_wins = 0
-                play_again()
-            elif user_wins == 3:
-                print('You win the match!')
-                computer_wins = 0
-                user_wins = 0
-                play_again()
-        elif (winner == 2):
-            computer_wins += 1
-            print('Computer wins the round!!!')
-            print(f"The computer score is: {computer_wins} and the player score is: {user_wins}") 
-            if  computer_wins == 3:
-                print('The computer won this match!')
-                computer_wins = 0
-                user_wins = 0
-                play_again()
-            elif user_wins == 3:
-                print('You win the match!')
-                computer_wins = 0
-                user_wins = 0
-                play_again()
+        return True
+
+def main():
+        """Main function to run the game."""
+        score = {'win': 0, 'lost': 0, 'draw': 0}
+        while True:
+            result = play_game()
+            if result == 1:
+                score['win'] += 1
+                # TODO if win = 3, game over, you won, play again?
+            elif result == 2:
+                score['lost'] += 1
+                # TODO break if loss = 3, game over, you lost, play again?
+            else:
+                score['draw'] += 1
+            print("Wins: {} | Losses: {} | Draws: {}".format(score['win'], score['lost'], score['draw']))
+            if score['win'] == 1:
+                print("Game Over! You won the match/ 3 games")
+                if not play_again():
+                    print("Thanks for playing!")
+                    break
+                else:
+                    score = {'win': 0, 'lost': 0, 'draw': 0}
+                    main()
+            elif score['lost'] == 1:
+                print("Game Over! You lost the match/ 3 games")
+                if not play_again():
+                    print("Thanks for playing!")
+                    break
+                else:
+                    score = {'win': 0, 'lost': 0, 'draw': 0}
+                    main()
+     
+            
+    
    
     
-play()
+main()
 # %%

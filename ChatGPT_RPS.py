@@ -90,6 +90,9 @@ class RockPaperScissors():
             result = self.play_game()
             if result == 1:
                 score['win'] += 1
+                if score['win'] == 3:
+                    print("Game Over! You won the match/ 3 games")
+                    
                 # TODO if win = 3, game over, you won, play again?
             elif result == 2:
                 score['lost'] += 1

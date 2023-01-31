@@ -122,6 +122,8 @@ class RockPaperScissors():
         """Main function to run the game."""
         if self.model is None or self.cap is None:
             return
+        # TODO add the main function - see what missing if anything? win loss etc are above. 
+        # Add if win or loss == 0 then you won/lost match, play again?
         while True:
             self.play_game()
             if not self.play_again():

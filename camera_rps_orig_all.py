@@ -1,4 +1,4 @@
- # %%
+# %%
 
 
 # Import opencv-python. Opencv is an open source library which is very useful for computer vision applications 
@@ -96,9 +96,7 @@ def get_prediction():
     data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
     # set countdown timer variable, set to 3 seconds
     TIMER = int(1) 
-    #print(data)
-    
-    
+    # print(data)
     # To initiate the 3 second coundown time you must press the p button
     print("Press p to play")
     # This code initiates an infinite loop (to be broken later by a break statement), where we have ret and frame being defined
@@ -108,6 +106,13 @@ def get_prediction():
         ret, frame = cap.read()
          # Added code to flip the frame so a mirror image is displayed inthe python screen output
         flip_frame = cv2.flip(frame,1)
+        
+        # TODO Adding text to screen
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(flip_frame, str('Press p to play'), 
+                        (200, 250), font,
+                        3, (0, 255, 255),
+                        4, cv2.LINE_AA)
         # The function imshow displays an image in the specified window. Shows the fliped frame  
         cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)    
         # check for the key pressed
@@ -170,9 +175,11 @@ def get_prediction():
                 image_np = np.array(resized_frame)
                 # Normalizes the image
                 normalized_image = (image_np.astype(np.float32) / 127.0) - 1 
-                #?????
+                # In Python, the code data[0] = normalized_image is setting the first element of the "data" list (or array) to the value of the variable "normalized_image". 
+                # This would replace the current value of the first element with the new value stored in the "normalized_image" variable.
+                # It is assuming that data is a list or an array and normalized_image is a value that is compatible with the data type of the list elements.
                 data[0] = normalized_image
-                # pediction comes from model variable (from keras_model.h5), and making a prediction of what the camera is seeing (as a numpy array)
+                # pediction comes from model variable (from keras_model.h5), and making a prediction of what the camera is seeing (as a numpy array) from the data variable just saved
                 prediction = model.predict(data)
                 # Prints what the prediction is. A number 0-3, where 0 = Rock, 1 = Paper, 2 =Scissor and 3 = Nothing 
                 print(prediction)
@@ -217,6 +224,18 @@ def get_computer_choice():
 
 def play_again():
     play_again_input = input("Play again? (y/n): ")
+    cap = cv2.VideoCapture(0)
+    ret, frame = cap.read()
+    # Added code to flip the frame so a mirror image is displayed inthe python screen output
+    flip_frame = cv2.flip(frame,1)
+    # The following code displays "Play again y/n" in the pytghon frame
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    cv2.putText(flip_frame, str("Play again? (y/n):"), 
+                        (200, 250), font,
+                        3, (0, 255, 255),
+                        4, cv2.LINE_AA)
+        # The function imshow displays an image in the specified window. Shows the fliped frame  
+    cv2.imshow('Computer Vision: Rock, Paper, Scissor', flip_frame)   
     if play_again_input.lower() == "n":
             exit()
     elif play_again_input.lower() == "y":

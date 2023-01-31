@@ -23,9 +23,9 @@ def get_winner(computer_choice, user_choice):
     else:
         result = results.get((user_choice, computer_choice))
         if result == 1:
-            print("You won!")
+            print(f"You won! {user_choice} beats {computer_choice}")
         else:
-            print("You lost!")
+            print(f"You lost! {computer_choice} beats {user_choice} ")
         return result
 
 def interpret_prediction(prediction, label_names):
