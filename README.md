@@ -190,12 +190,21 @@ play()
 ```
 
 ### Milestone 5
-Incorporated the computer vision recognition into the RPS game for the playres choice. Added lines that display a 'press p to play prompt' and ca ountdown timer in the python window itself. Added a simple play again function. Changed the get_winner function so it uses a dictionary rather than just else if statements. Reordered when the computer choice is shown, so it comes after user choice.
-Tidied up code and comments.
-Finished off by wrapping up the code in a class.
-TODO Could add more text prompts in the python window, in fact my initioal vision was everything to run in the python window but demonstrated this in principle
-Also played around with Chat GPT integration into VSCode, found it actually can critique and suggest code imporovements quite well. Anotherr rabbit hole but at this stage want to move onto the next project
+Incorporated the computer vision recognition into the RPS game for the playres choice. 
 
+Added lines that display a 'press p to play prompt' and a countdown timer in the python window itself. 
+
+Added a simple play again function. 
+
+Changed the get_winner function so it uses a dictionary rather than just else if statements. Reordered when the computer choice is shown, so it comes after user choice.
+
+Tidied up code and comments.
+
+Finished off by wrapping up the code in a class.
+
+TODO Could add more text prompts in the python window, in fact my initioal vision was everything to run in the python window but demonstrated this in principle. Another rabbit hole but at this stage want to move onto the next project.
+
+Also played around with ChatGPT integration into VSCode, found it actually can critique and suggest code imporovements quite well. 
 ### Usage
 ```python
 
